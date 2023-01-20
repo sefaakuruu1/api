@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <script>
+
+        console.log("start");
+
+        const serverStatus = false;
+
+        const login = (username, password) => {
+            return new Promise((resolve, reject) => {
+                //promise 2 tane parametre bekler.Resolve onaylamak için,reject ise reddetmek içindir
+
+                setTimeout(() => {
+                    if(serverStatus) {
+                        resolve( { username: username, email: "info@sadikturan.com" } )
+                    } else {
+                        reject("server is offline");
+                    }
+                },1000);
+            })            
+        }
+
+        const getPostsByUsername = (username) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(["post 1","post 2","post 3"]);
+                }, 2000)
+            })
+        }
+
+        const getPostDetails = (post) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve("post details");
+                }, 1000)
+            })           
+        }
+
+        // login("sadikturan","12345", user => {
+        //     console.log(user.username);
+            
+        //     getPostsByUsername(user.username, (posts) => {
+        //         console.log(posts);
+
+        //         getPostDetails(posts[0], (details) => {
+        //             console.log(details);
+        //         })
+        //     });
+
+        // });
+
+        login("sadikturan","12345")
+            .then(user => {//.then aldıktan sonra bu işlemleri yaparız
+                console.log(user);
+                return getPostsByUsername(user.username);
+                //get postsby username return edilirken diger fonksiyon için gerekli olan username i return eder
+            })
+            .then(posts => {
+                console.log(posts);
+                return getPostDetails(posts[0]);
+            })
+            .then(details => {
+                console.log(details);
+            }).catch(err => {//catch hatayı getirir .
+                console.log(err);
+            })
+
+
+        console.log("end");
+
+
+
+    </script>
+    
+</body>
+</html>
